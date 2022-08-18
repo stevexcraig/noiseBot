@@ -1,0 +1,236 @@
+const int touchPinA = 15;
+const int touchPinB = 13;
+const int touchPinC = 12;
+const int touchPinD = 4;
+const int touchPinE = 14;
+const int touchPinF = 32;
+const int touchPinG = 33;
+
+
+const int threshold = 30;
+const int thresholdMin = 5;
+const int thresholdMinA = 15;
+
+int touchValueA;
+int touchValueB;
+int touchValueC;
+int touchValueD;
+int touchValueE;
+int touchValueF;
+int touchValueG;
+
+
+int noid1 = 16;
+int noid2 = 17;
+int noid3 = 5;
+int noid4 = 18;
+int noid5 = 19;
+int noid6 = 21;
+int noid7 = 3;
+
+int noidonTime = 30;
+int noidoffTime = 120;
+
+int del = 80;
+
+void setup() {
+  Serial.begin(115200);
+  delay(500);
+
+
+  pinMode (noid1, OUTPUT);
+  pinMode (noid2, OUTPUT);
+  pinMode (noid3, OUTPUT);
+  pinMode (noid4, OUTPUT);
+  pinMode (noid5, OUTPUT);
+  pinMode (noid6, OUTPUT);
+  pinMode (noid7, OUTPUT);
+
+  pinMode (touchPinA, INPUT);
+  pinMode (touchPinB, INPUT);
+  pinMode (touchPinC, INPUT);
+  pinMode (touchPinD, INPUT);
+  pinMode (touchPinE, INPUT);
+  pinMode (touchPinF, INPUT);
+  pinMode (touchPinG, INPUT);
+}
+
+void loop() {
+
+  touchValueF = touchRead(touchPinF);
+  touchValueG = touchRead(touchPinG);
+  char buffer[40];
+  sprintf(buffer, "F %u, G = %u", touchValueF, touchValueG);
+  Serial.println(buffer);
+  //delay(500);
+
+  {
+    noidF ();
+    noidG ();
+  }
+
+  touchValueA = touchRead(touchPinA);
+  if ((touchValueA < threshold) && (touchValueA > thresholdMinA)) {
+    noidA();
+    noidOffA();
+    //delay(50);
+  }
+  touchValueB = touchRead(touchPinB);
+  if ((touchValueB < threshold) && (touchValueB > thresholdMin)) {
+    noidB();
+    noidOffB();
+    //delay(50);
+
+  }
+  touchValueC = touchRead(touchPinC);
+  if ((touchValueC < threshold) && (touchValueC > thresholdMin)) {
+    noidC();
+    noidOffC();
+    //delay(50);
+
+  }
+  touchValueD = touchRead(touchPinD);
+  if ((touchValueD < threshold) && (touchValueD > thresholdMin)) {
+    noidD();
+    noidOffD();
+    //delay(50);
+
+  }
+  touchValueE = touchRead(touchPinE);
+  if ((touchValueE < threshold) && (touchValueE > thresholdMin)) {
+    noidE();
+    noidOffE();
+    //delay(50);
+
+  }
+  //delay(del);
+}
+
+///////////////
+
+void noidA() {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidonTime) {
+    digitalWrite(noid1, HIGH);
+
+    if (millis() - snapshotOfTime > noidonTime) break;
+  }
+}
+
+void noidOffA () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidoffTime) {
+    digitalWrite(noid1, LOW);
+
+    if (millis() - snapshotOfTime > noidoffTime) break;
+  }
+}
+
+void noidB () {
+
+  unsigned long snapshotOfTimeB = 0;
+  snapshotOfTimeB = millis();
+  while (millis() < snapshotOfTimeB + noidonTime) {
+    digitalWrite(noid2, HIGH);
+
+    if (millis() - snapshotOfTimeB > noidonTime) break;
+  }
+}
+
+void noidOffB () {
+
+  unsigned long snapshotOfTimeB = 0;
+  snapshotOfTimeB = millis();
+  while (millis() < snapshotOfTimeB + noidoffTime) {
+    digitalWrite(noid2, LOW);
+
+    if (millis() - snapshotOfTimeB > noidoffTime) break;
+  }
+}
+
+void noidC () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidonTime) {
+    digitalWrite(noid3, HIGH);
+
+    if (millis() - snapshotOfTime > noidonTime) break;
+  }
+}
+
+void noidOffC () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidoffTime) {
+    digitalWrite(noid3, LOW);
+
+    if (millis() - snapshotOfTime > noidoffTime) break;
+  }
+}
+
+void noidD () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidonTime) {
+    digitalWrite(noid4, HIGH);
+
+    if (millis() - snapshotOfTime > noidonTime) break;
+  }
+}
+
+void noidOffD () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidoffTime) {
+    digitalWrite(noid4, LOW);
+
+    if (millis() - snapshotOfTime > noidoffTime) break;
+  }
+}
+void noidE () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidonTime) {
+    digitalWrite(noid5, HIGH);
+
+    if (millis() - snapshotOfTime > noidonTime) break;
+  }
+}
+
+void noidOffE () {
+
+  unsigned long snapshotOfTime = 0;
+  snapshotOfTime = millis();
+  while (millis() < snapshotOfTime + noidoffTime) {
+    digitalWrite(noid5, LOW);
+
+    if (millis() - snapshotOfTime > noidoffTime) break;
+  }
+}
+
+void noidF () {
+
+  if (touchValueF < 20) {
+    digitalWrite(noid6, LOW);
+  } else {
+    digitalWrite(noid6, HIGH);
+  }
+}
+
+void noidG () {
+
+  if (touchValueG < 20) {
+    digitalWrite(noid7, LOW);
+  } else {
+    digitalWrite(noid7, HIGH);
+  }
+}
